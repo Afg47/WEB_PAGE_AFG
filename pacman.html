@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>بازی پک من</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="content">
+    <h1>بازی پک من</h1>
+    <pre class="code-box" id="code">
+import random
+
+# تنظیمات اولیه بازی
+grid_size = 10
+dots = [(random.randint(0, grid_size-1), random.randint(0, grid_size-1)) for _ in range(5)]
+pacman = [grid_size // 2, grid_size // 2]
+
+def print_grid():
+    for y in range(grid_size):
+        for x in range(grid_size):
+            if [x, y] == pacman:
+                print('P', end=' ')
+            elif (x, y) in dots:
+                print('.', end=' ')
+            else:
+                print('-', end=' ')
+        print()
+
+def move_pacman(direction):
+    if direction == 'up':
+        pacman[1] = max(pacman[1] - 1, 0)
+    elif direction == 'down':
+        pacman[1] = min(pacman[1] + 1, grid_size - 1)
+    elif direction == 'left':
+        pacman[0] = max(pacman[0] - 1, 0)
+    elif direction == 'right':
+        pacman[0] = min(pacman[0] + 1, grid_size - 1)
+
+def check_dot():
+    global dots
+    if tuple(pacman) in dots:
+        dots.remove(tuple(pacman))
+        return True
+    return False
+
+print("Start game!")
+while dots:
+    print_grid()
+    move = input("Move (up/down/left/right): ").strip().lower()
+    move_pacman(move)
+    if check_dot():
+        print("Dot eaten!")
+print("All dots eaten. You win!")
+    </pre>
+    <button class="btn" onclick="copyCode()">کپی کردن کد</button>
+</div>
+<script>
+    function copyCode() {
+        const codeElement = document.getElementById('code');
+        const range = document.createRange();
+        range.selectNode(codeElement);
+        window.getSelection().removeAllRanges();
+        window.getSelection().addRange(range);
+        document.execCommand('copy');
+        alert('کد کپی شد!');
+    }
+</script>
+</body>
+</html>
